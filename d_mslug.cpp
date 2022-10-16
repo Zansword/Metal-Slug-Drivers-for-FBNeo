@@ -1625,7 +1625,7 @@ struct BurnDriver BurnDrvms4plus = {
 
 static struct BurnRomInfo mslug4aRomDesc[] = {
 
-	{ "263-p1.bin",   0x100000, 0x61cdef09, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+	{ "263-p1a.bin",   0x100000, 0x54dae71f, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
 	{ "263-p2.bin",   0x400000, 0x87dc01b9, 1 | BRF_ESS | BRF_PRG }, //  1
 
 	{ "263-s1.bin",  0x080000, 0x1eaa05e0, 2 | BRF_GRA },
@@ -1833,6 +1833,43 @@ struct BurnDriver BurnDrvmslug4lw = {
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_RUNGUN, FBF_MSLUG,
 	NULL, mslug4lwRomInfo, mslug4lwRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
 	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000,	304, 224, 4, 3
+};
+
+static struct BurnRomInfo mslug4qRomDesc[] = {
+	/* There also exist carts where p1 label is pg1; the PG1 revision has a Japanese cart label, SN 02Jxxxxx
+	The P1 revision has a US/EUR cart label, SN 02Txxxxx ; Rom data on both is identical.
+	These carts were manufactured by Mega Enterprise, not SNK. */
+	{ "263-p1q.p1",    0x100000, 0x1b5121b6, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+	{ "263-p2q.sp2",   0x400000, 0xf132898f, 1 | BRF_ESS | BRF_PRG }, //  1 
+
+																	 /* The Encrypted Boards do not have an s1 rom, data for it comes from the Cx ROMs */
+																	 /* Encrypted */
+	{ "263-c1.c1",    0x800000, 0x84865f8a, 3 | BRF_GRA },           //  2 Sprite data
+	{ "263-c2.c2",    0x800000, 0x81df97f2, 3 | BRF_GRA },           //  3 
+	{ "263-c3.c3",    0x800000, 0x1a343323, 3 | BRF_GRA },           //  4 
+	{ "263-c4.c4",    0x800000, 0x942cfb44, 3 | BRF_GRA },           //  5 
+	{ "263-c5.c5",    0x800000, 0xa748854f, 3 | BRF_GRA },           //  6 
+	{ "263-c6.c6",    0x800000, 0x5c8ba116, 3 | BRF_GRA },           //  7 
+
+																	 /* Encrypted */
+	{ "263-m1.m1",    0x020000, 0x46ac8228, 4 | BRF_ESS | BRF_PRG }, //  8 Z80 code
+
+																	 /* Encrypted */
+	{ "263-v1.v1",    0x800000, 0x01e9b9cd, 5 | BRF_SND },           //  9 Sound data
+	{ "263-v2.v2",    0x800000, 0x4ab2bf81, 5 | BRF_SND },           // 10 
+};
+
+STDROMPICKEXT(mslug4q, mslug4q, neogeo)
+STD_ROM_FN(mslug4q)
+
+struct BurnDriver BurnDrvmslug4q = {
+	"mslug4q", "mslug4", "neogeo", NULL, "2002",
+	"Metal Slug 4 (The Longest Battle, Hack)\0", NULL, "Mega", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED | BDF_CLONE | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO | HARDWARE_SNK_CMC50 | HARDWARE_SNK_ENCRYPTED_M1, GBF_RUNGUN, FBF_MSLUG,
+	NULL, mslug4qRomInfo, mslug4qRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
+	mslug4Init, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000,	304, 224, 4, 3
 };
 
@@ -2401,26 +2438,26 @@ struct BurnDriver BurnDrvmslug5ext = {
 // Metal Slug 5 Battle [Hack]
 
 static struct BurnRomInfo mslug5fRomDesc[] = {
-	{ "254-p1.bin",    0x100000, 0x6be7043d, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+	{ "268-p1f.bin",    0x100000, 0x6be7043d, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
 	{ "254-p2.bin",   0x400000, 0xf06c589a, 1 | BRF_ESS | BRF_PRG }, //  1 
 
 	{ "268d-s1.rom",    0x020000, 0x64952683, 2 | BRF_GRA },
 
-	{ "254-c1.bin",    0x800000, 0xe8239365, 3 | BRF_GRA },           //  2 Sprite data
-	{ "254-c2.bin",    0x800000, 0x89b21d4c, 3 | BRF_GRA },           //  3 
-	{ "254-c3.bin",    0x800000, 0x3cda13a0, 3 | BRF_GRA },           //  4 
-	{ "254-c4.bin",    0x800000, 0x9c00160d, 3 | BRF_GRA },           //  5 
-	{ "254-c5.bin",    0x800000, 0x3bc09dbf, 3 | BRF_GRA },           //  6 
-	{ "254-c6.bin",    0x800000, 0x0db5ce14, 3 | BRF_GRA },           //  7 
-	{ "254-c7.bin",    0x800000, 0xaa4f3214, 3 | BRF_GRA },           //  8 
-	{ "254-c8.bin",    0x800000, 0xc86d0d81, 3 | BRF_GRA },           //  9 
+	{ "268d-c1.rom",    0x800000, 0xe8239365, 3 | BRF_GRA },           //  2 Sprite data
+	{ "268d-c2.rom",    0x800000, 0x89b21d4c, 3 | BRF_GRA },           //  3 
+	{ "268d-c3.rom",    0x800000, 0x3cda13a0, 3 | BRF_GRA },           //  4 
+	{ "268d-c4.rom",    0x800000, 0x9c00160d, 3 | BRF_GRA },           //  5 
+	{ "268d-c5f.rom",    0x800000, 0x3bc09dbf, 3 | BRF_GRA },           //  6 
+	{ "268d-c6f.rom",    0x800000, 0x0db5ce14, 3 | BRF_GRA },           //  7 
+	{ "268d-c7f.rom",    0x800000, 0xaa4f3214, 3 | BRF_GRA },           //  8 
+	{ "268d-c8f.rom",    0x800000, 0xc86d0d81, 3 | BRF_GRA },           //  9 
 
-	{ "254-m1.m1",    0x080000, 0x464c72ad, 4 | BRF_ESS | BRF_PRG }, // 10 Z80 code
+	{ "268d-m1.rom",    0x080000, 0x6fa01c9a, 4 | BRF_ESS | BRF_PRG }, // 10 Z80 code
 
-	{ "254-v1.v1",    0x400000, 0xf61daa9e, 5 | BRF_SND },           // 11 Sound data
-	{ "254-v2.v2",    0x400010, 0x7fed45cb, 5 | BRF_SND },           // 12 
-	{ "254-v3.v3",    0x400000, 0xdc737e12, 5 | BRF_SND },           // 13 
-	{ "254-v4.v4",    0x437510, 0xe3a76022, 5 | BRF_SND },           // 14 
+	{ "268d-v1f.rom",    0x400000, 0xf61daa9e, 5 | BRF_SND },           // 11 Sound data
+	{ "268d-v2f.rom",    0x400010, 0x7fed45cb, 5 | BRF_SND },           // 12 
+	{ "268d-v3f.rom",    0x400000, 0xdc737e12, 5 | BRF_SND },           // 13 
+	{ "268d-v4f.rom",    0x437510, 0xe3a76022, 5 | BRF_SND },           // 14 
 };
 
 STDROMPICKEXT(mslug5f, mslug5f, neogeo)
